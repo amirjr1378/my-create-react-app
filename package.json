@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/amirjr1378/my-create-react-app/issues"
   },
-  "homepage": "https://github.com/amirjr1378/my-create-react-app#readme"
+  "homepage": "https://github.com/amirjr1378/my-create-react-app#readme",
+  "devDependencies": {
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  }
 }
