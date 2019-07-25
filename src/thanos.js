@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas';
+import html2canvas from "html2canvas";
 
 const DEBUG = false;
 const REPETITION_COUNT = 2; // number of times each pixel is assigned to a canvas
@@ -14,8 +14,8 @@ function generateFrames($canvas, count = 32) {
   const { width, height } = $canvas;
   const ctx = $canvas.getContext("2d");
   const originalData = ctx.getImageData(0, 0, width, height);
-  const imageDatas = [...Array(count)].map(
-    (_, i) => ctx.createImageData(width, height)
+  const imageDatas = [...Array(count)].map((_, i) =>
+    ctx.createImageData(width, height)
   );
 
   // assign the pixels to a canvas
@@ -24,13 +24,13 @@ function generateFrames($canvas, count = 32) {
     for (let y = 0; y < height; ++y) {
       for (let i = 0; i < REPETITION_COUNT; ++i) {
         const dataIndex = Math.floor(
-          count * (Math.random() + 2 * x / width) / 3
+          (count * (Math.random() + (2 * x) / width)) / 3
         );
         const pixelIndex = (y * width + x) * 4;
         // copy the pixel over from the original image
         for (let offset = 0; offset < 4; ++offset) {
-          imageDatas[dataIndex].data[pixelIndex + offset]
-            = originalData.data[pixelIndex + offset];
+          imageDatas[dataIndex].data[pixelIndex + offset] =
+            originalData.data[pixelIndex + offset];
         }
       }
     }
@@ -62,7 +62,6 @@ function replaceElementVisually($old, $new) {
  * @param {HTMLElement} $elm
  */
 
-
 export function disintegrate($elm) {
   html2canvas($elm).then($canvas => {
     // create the container we'll use to replace the element with
@@ -72,7 +71,7 @@ export function disintegrate($elm) {
     // setup the frames for animation
     const $frames = generateFrames($canvas, NUM_FRAMES);
     $frames.forEach(($frame, i) => {
-      $frame.style.transitionDelay = `${1.38 * i / $frames.length}s`;
+      $frame.style.transitionDelay = `${(1.38 * i) / $frames.length}s`;
       $container.appendChild($frame);
     });
 
@@ -80,14 +79,15 @@ export function disintegrate($elm) {
     replaceElementVisually($elm, $container);
 
     // then animate them
-    $container.offsetLeft; // forces reflow, so CSS we apply below does transition
+    const amir = $container.offsetLeft; // forces reflow, so CSS we apply below does transition
     if (!DEBUG) {
       // set the values the frame should animate to
       // note that this is done after reflow so the transitions trigger
       $frames.forEach($frame => {
         const randomRadian = 2 * Math.PI * (Math.random() - 0.5);
-        $frame.style.transform =
-          `rotate(${15 * (Math.random() - 0.5)}deg) translate(${60 * Math.cos(randomRadian)}px, ${30 * Math.sin(randomRadian)}px)
+        $frame.style.transform = `rotate(${15 *
+          (Math.random() - 0.5)}deg) translate(${60 *
+          Math.cos(randomRadian)}px, ${30 * Math.sin(randomRadian)}px)
 rotate(${15 * (Math.random() - 0.5)}deg)`;
         $frame.style.opacity = 0;
       });
